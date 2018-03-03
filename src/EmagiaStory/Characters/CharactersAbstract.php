@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
- * User: Mac
+ * User: George
  * Date: 2/21/18
  * Time: 23:31
  */
@@ -26,102 +27,6 @@ abstract class CharactersAbstract
     /** @var $defence int */
     protected $defence;
 
-    /**
-     * @return string
-     */
-    public function getPlayerName(): string
-    {
-        return $this->playerName;
-    }
-
-    /**
-     * @param string $playerName
-     */
-    public function setPlayerName(string $playerName)
-    {
-        $this->playerName = $playerName;
-    }
-
-    /**
-     * @return int
-     */
-    public function getHealth(): int
-    {
-        return $this->health;
-    }
-
-    /**
-     * @param int $health
-     */
-    public function setHealth(int $health)
-    {
-        $this->health = $health;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStrength(): int
-    {
-        return $this->strength;
-    }
-
-    /**
-     * @param int $strength
-     */
-    public function setStrength(int $strength)
-    {
-        $this->strength = $strength;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDefence(): int
-    {
-        return $this->defence;
-    }
-
-    /**
-     * @param int $defence
-     */
-    public function setDefence(int $defence)
-    {
-        $this->defence = $defence;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSpeed(): int
-    {
-        return $this->speed;
-    }
-
-    /**
-     * @param int $speed
-     */
-    public function setSpeed(int $speed)
-    {
-        $this->speed = $speed;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLuck()
-    {
-        return $this->luck;
-    }
-
-    /**
-     * @param mixed $luck
-     */
-    public function setLuck($luck)
-    {
-        $this->luck = $luck;
-    }
-
     /** @var $speed int */
     protected $speed;
 
@@ -136,4 +41,117 @@ abstract class CharactersAbstract
 
     }
 
+    /**
+     * @return string
+     */
+    public function getPlayerName(): string
+    {
+        return $this->playerName;
+    }
+
+    /**
+     * @param string $playerName
+     * @return CharactersAbstract
+     */
+    public function setPlayerName(string $playerName): CharactersAbstract
+    {
+        $this->playerName = $playerName;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHealth(): int
+    {
+        return $this->health;
+    }
+
+    /**
+     * @param int $health
+     * @return CharactersAbstract
+     */
+    public function setHealth(int $health): CharactersAbstract
+    {
+        $this->health = $health;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStrength(): int
+    {
+        return $this->strength;
+    }
+
+    /**
+     * @param int $strength
+     * @return CharactersAbstract
+     */
+    public function setStrength(int $strength): CharactersAbstract
+    {
+        $this->strength = $strength;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefence(): int
+    {
+        return $this->defence;
+    }
+
+    /**
+     * @param int $defence
+     * @return CharactersAbstract
+     */
+    public function setDefence(int $defence): CharactersAbstract
+    {
+        $this->defence = $defence;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSpeed(): int
+    {
+        return $this->speed;
+    }
+
+    /**
+     * @param int $speed
+     * @return CharactersAbstract
+     */
+    public function setSpeed(int $speed): CharactersAbstract
+    {
+        $this->speed = $speed;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLuck(): int
+    {
+        return $this->luck;
+    }
+
+    /**
+     * @param mixed $luck
+     * @return CharactersAbstract
+     */
+    public function setLuck(int $luck): CharactersAbstract
+    {
+        $this->luck = $luck;
+
+        return $this;
+    }
 }
