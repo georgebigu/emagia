@@ -4,22 +4,22 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: George
  * Date: 3/3/18
- * Time: 18:57
+ * Time: 19:33
  */
 
 namespace EmagiaStory\Skills;
 
 /**
- * Class MagicShield
+ * Class RapidStrike
  *
- * Limits the damage made by the enemy to half
+ * Gives the hero the ability to strike twice
  *
  * @package EmagiaStory\Skills
  */
-class MagicShield extends SkillsAbstract implements SkillsInterface
+class RapidStrike extends SkillsAbstract implements SkillsInterface
 {
     /**
-     * MagicShield constructor
+     * RapidStrike constructor
      * @param string $type
      * @param int $chance
      */
@@ -32,4 +32,5 @@ class MagicShield extends SkillsAbstract implements SkillsInterface
     {
         // TODO: Implement getSpecialDamage() method.
     }
+
 }
