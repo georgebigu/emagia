@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace EmagiaStory\Characters;
 
 /**
- * Class Character
+ * Class CharacterAbstract
  * @package EmagiaStory\Character
  */
 abstract class CharactersAbstract
@@ -38,7 +38,6 @@ abstract class CharactersAbstract
      */
     public function __construct()
     {
-
     }
 
     /**

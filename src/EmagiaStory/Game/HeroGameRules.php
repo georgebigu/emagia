@@ -30,7 +30,7 @@ class HeroGameRules
 
     /* Hero default settings */
     const HERO_NAME = 'ORDERUS';
-    const HERO_SKILLS = [
+    const HERO_ABILITIES = [
         'MIN_HEALTH'    => 70,
         'MAX_HEALTH'    => 100,
         'MIN_STRENGTH'  => 70,
@@ -41,6 +41,8 @@ class HeroGameRules
         'MAX_SPEED'     => 50,
         'MIN_LUCK'      => 10,
         'MAX_LUCK'      => 30,
+    ];
+    const HERO_SKILLS = [
         'RAPID_STRIKE'  => 10,
         'MAGIC_SHIELD'  => 20,
     ];
@@ -52,7 +54,7 @@ class HeroGameRules
         'FARREL',
         'MUMMY CLAWS'
     ];
-    const WILD_BEAST_SKILLS = [
+    const WILD_BEAST_ABILITIES = [
         'MIN_HEALTH'    => 60,
         'MAX_HEALTH'    => 90,
         'MIN_STRENGTH'  => 60,

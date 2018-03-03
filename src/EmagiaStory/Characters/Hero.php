@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace EmagiaStory\Characters;
 
-use EmagiaStory\Characters\CharactersAbstract;
-
 /**
  * Class Hero used to declare all hero skills and abilities
  * */
