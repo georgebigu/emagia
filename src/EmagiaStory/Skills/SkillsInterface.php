@@ -15,5 +15,5 @@ namespace EmagiaStory\Skills;
 
 interface SkillsInterface
 {
-    public function getSpecialDamage(float $damage): float;
+    public function getSpecialDamage(int $damage): int;
 }

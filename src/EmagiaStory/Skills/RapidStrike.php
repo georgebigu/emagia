@@ -28,9 +28,15 @@ class RapidStrike extends SkillsAbstract implements SkillsInterface
         parent::__construct($type, $chance);
     }
 
-    public function getSpecialDamage(float $damage): float
+    /**
+     * Doubles the damage inflicted by the player
+     *
+     * @param int $damage
+     * @return int
+     */
+    public function getSpecialDamage(int $damage): int
     {
-        // TODO: Implement getSpecialDamage() method.
+        return $damage * 2;
     }
 
 }

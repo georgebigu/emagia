@@ -28,8 +28,14 @@ class MagicShield extends SkillsAbstract implements SkillsInterface
         parent::__construct($type, $chance);
     }
 
-    public function getSpecialDamage(float $damage): float
+    /**
+     * Limits the damage inflicted to the player to half
+     *
+     * @param int $damage
+     * @return int
+     */
+    public function getSpecialDamage(int $damage): int
     {
-        // TODO: Implement getSpecialDamage() method.
+        return $damage / 2;
     }
 }
