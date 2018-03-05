@@ -38,6 +38,22 @@ abstract class SkillsAbstract
     /**
      * @return mixed
      */
+    public function getChance(): int
+    {
+        return $this->chance;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getUseSkill(): bool
     {
         return $this->useSkill;

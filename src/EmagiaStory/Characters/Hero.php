@@ -37,7 +37,7 @@ class Hero extends CharactersAbstract
     public function addSkill(SkillsAbstract $skill): Hero
     {
         foreach ($this->skillsTypes as $skillType) {
-            if (!$this->skillIsSet($skill, $skillType)) {
+            if (!$this->skillIsSet($skill, $skillType) && $skillType == $skill->getType()) {
                 $this->skills[$skillType] = $skill;
             }
         }
@@ -59,7 +59,7 @@ class Hero extends CharactersAbstract
             }
         }
 
-
+        return $this;
     }
 
     /*******************/
