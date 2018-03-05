@@ -50,18 +50,30 @@ class HeroGame
 
     /**
      * Init Game
+     *
+     * @throws \Exception
      */
     public function initGame()
     {
-        $this->createHero();
+        try {
+            $this->createHero();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
     }
 
     /**
+     * Create Hero player
+     *
      * @return HeroGame
+     * @throws \Exception
      */
     private function createHero(): HeroGame
     {
         try {
+            // put RapidStrike and MagicShield in some constants and use in abstract also
+
             $this->hero = new Hero();
             $rapidStrike = new RapidStrike('RapidStrike', HeroGameRules::HERO_SKILLS['RAPID_STRIKE']);
             $magicShield = new MagicShield('MagicShield', HeroGameRules::HERO_SKILLS['MAGIC_SHIELD']);
@@ -81,7 +93,7 @@ class HeroGame
             ;
 
         } catch (\Exception $e) {
-            $this->log($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return $this;
