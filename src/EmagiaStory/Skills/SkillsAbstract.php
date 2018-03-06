@@ -15,6 +15,9 @@ namespace EmagiaStory\Skills;
  */
 abstract class SkillsAbstract
 {
+    const RAPID_STRIKE_CLASS = 'RapidStrike';
+    const MAGIC_SHIELD_CLASS = 'MagicShield';
+
     /** @var $chance */
     protected $chance;
 

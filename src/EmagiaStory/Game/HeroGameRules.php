@@ -27,7 +27,6 @@ class HeroGameRules
 //        'audi'
 //    ]);
 
-
     /* Hero default settings */
     const HERO_NAME = 'ORDERUS';
     const HERO_ABILITIES = [

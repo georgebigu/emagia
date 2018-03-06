@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 namespace EmagiaStory\Characters;
+
 use EmagiaStory\Skills\SkillsAbstract;
 
 /**
@@ -20,13 +21,13 @@ class Hero extends CharactersAbstract
 
     /** @var array $skillsTypes */
     protected $skillsTypes = [
-        'MagicShield',
-        'RapidStrike',
+        SkillsAbstract::RAPID_STRIKE_CLASS,
+        SkillsAbstract::MAGIC_SHIELD_CLASS,
     ];
 
-    /******************/
-    /* PUBLIC METHODS */
-    /******************/
+    ##################
+    # PUBLIC METHODS #
+    ##################
 
     /**
      * Add skill to Hero
