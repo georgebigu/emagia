@@ -25,10 +25,10 @@ use EmagiaStory\Skills\SkillsAbstract;
  */
 class HeroGame
 {
-    /** @var $hero */
+    /** @var Hero */
     protected $hero;
 
-    /** @var $wildBeast */
+    /** @var WildBeast */
     protected $wildBeast;
 
     /** @var $winner */
@@ -59,14 +59,12 @@ class HeroGame
      */
     public function initGame()
     {
-        try {
-            $this->createHero()
-                ->createWildBeast()
-                ->firstAttacker()
-            ;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $this->createHero()
+            ->createWildBeast()
+            ->firstAttacker()
+        ;
+
+        $this->logPlayersSkills();
 
     }
 
@@ -78,24 +76,19 @@ class HeroGame
      */
     private function createHero(): HeroGame
     {
-        try {
-            $this->hero = new Hero();
-            $this->getStartAbilities(HeroGameRules::HERO_ABILITIES);
-            $rapidStrike = new RapidStrike(SkillsAbstract::RAPID_STRIKE_CLASS, HeroGameRules::HERO_SKILLS['RAPID_STRIKE']);
-            $magicShield = new MagicShield(SkillsAbstract::MAGIC_SHIELD_CLASS, HeroGameRules::HERO_SKILLS['MAGIC_SHIELD']);
+        $this->hero = new Hero();
+        $this->getStartAbilities(HeroGameRules::HERO_ABILITIES);
+        $rapidStrike = new RapidStrike(SkillsAbstract::RAPID_STRIKE_CLASS, HeroGameRules::HERO_SKILLS['RAPID_STRIKE']);
+        $magicShield = new MagicShield(SkillsAbstract::MAGIC_SHIELD_CLASS, HeroGameRules::HERO_SKILLS['MAGIC_SHIELD']);
 
-            $this->hero->setPlayerName(HeroGameRules::HERO_NAME);
-            foreach ($this->startAbilities as $key => $value) {
-                $methodName = 'set' . ucfirst($key);
-                $this->hero->{$methodName}($value);
-            }
-            $this->hero->addSkill($rapidStrike->useSkill())
-                ->addSkill($magicShield->useSkill())
-            ;
-
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        $this->hero->setPlayerName(HeroGameRules::HERO_NAME);
+        foreach ($this->startAbilities as $key => $value) {
+            $methodName = 'set' . ucfirst($key);
+            $this->hero->{$methodName}($value);
         }
+        $this->hero->addSkill($rapidStrike->useSkill())
+            ->addSkill($magicShield->useSkill())
+        ;
 
         return $this;
     }
@@ -108,19 +101,14 @@ class HeroGame
      */
     private function createWildBeast(): HeroGame
     {
-        try {
-            $this->wildBeast = new WildBeast();
-            $this->getStartAbilities(HeroGameRules::WILD_BEAST_ABILITIES);
+        $this->wildBeast = new WildBeast();
+        $this->getStartAbilities(HeroGameRules::WILD_BEAST_ABILITIES);
 
-            $randKey = array_rand(HeroGameRules::WILD_BEASTS_NAMES, 1);
-            $this->wildBeast->setPlayerName(HeroGameRules::WILD_BEASTS_NAMES[$randKey]);
-            foreach ($this->startAbilities as $key => $value) {
-                $methodName = 'set' . ucfirst($key);
-                $this->wildBeast->{$methodName}($value);
-            }
-
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        $randKey = array_rand(HeroGameRules::WILD_BEASTS_NAMES, 1);
+        $this->wildBeast->setPlayerName(HeroGameRules::WILD_BEASTS_NAMES[$randKey]);
+        foreach ($this->startAbilities as $key => $value) {
+            $methodName = 'set' . ucfirst($key);
+            $this->wildBeast->{$methodName}($value);
         }
 
         return $this;
@@ -128,6 +116,8 @@ class HeroGame
 
     /**
      * Decide which character will attack first
+     *
+     * @throws \Exception
      */
     private function firstAttacker()
     {
@@ -150,17 +140,13 @@ class HeroGame
      */
     private function getStartAbilities(array $abilities)
     {
-        try {
-            $uniqueAbilities = $this->getUniqueAbilities($abilities);
+        $uniqueAbilities = $this->getUniqueAbilities($abilities);
 
-            foreach ($uniqueAbilities as $ability) {
-                $this->startAbilities[strtolower($ability)] = $this->getRandom(
-                    $abilities['MIN_'. $ability],
-                    $abilities['MAX_'. $ability],
-                    $ability);
-            }
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        foreach ($uniqueAbilities as $ability) {
+            $this->startAbilities[strtolower($ability)] = $this->getRandom(
+                $abilities['MIN_'. $ability],
+                $abilities['MAX_'. $ability],
+                $ability);
         }
     }
 
@@ -173,15 +159,13 @@ class HeroGame
      */
     private function getUniqueAbilities(array $abilities): array
     {
-        try {
-            $result = [];
-            foreach ($abilities as $key => $value) {
-                if (($pos = strpos($key, "_")) !== FALSE) {
-                    $result[] = substr($key, $pos + 1);
-                }
+        $result = [];
+        foreach ($abilities as $key => $value) {
+            if (($pos = strpos($key, "_")) !== FALSE) {
+                $result[] = substr($key, $pos + 1);
+            } else {
+                throw new \Exception('One ability constant does not have the right key format');
             }
-        } catch (\Exception $e) {
-            throw new \Exception('One ability constant does not have the right key format');
         }
 
         return array_unique($result);
@@ -215,5 +199,37 @@ class HeroGame
     private function log(string $message)
     {
         print_r($message);
+    }
+
+    /**
+     * Log players sets of abilities
+     *
+     * @throws \Exception
+     */
+    private function logPlayersSkills()
+    {
+        $this->log('Hero Game start skills:' . PHP_EOL);
+        $this->logUniqueAbilitiesValues($this->hero);
+        $this->log('***********************' . PHP_EOL . PHP_EOL);
+
+        $this->log('WildBeast start skills:' . PHP_EOL);
+        $this->logUniqueAbilitiesValues($this->wildBeast);
+        $this->log('***********************' . PHP_EOL);
+    }
+
+    /**
+     * Log player individual abilities values
+     *
+     * @param $player
+     * @throws \Exception
+     */
+    private function logUniqueAbilitiesValues($player)
+    {
+        $uniqueAbilities = $this->getUniqueAbilities(HeroGameRules::HERO_ABILITIES);
+
+        foreach ($uniqueAbilities as $ability) {
+            $methodName = 'get' . ucfirst(strtolower($ability));
+            $this->log($ability . " : " . $player->{$methodName}() . PHP_EOL);
+        }
     }
 }
