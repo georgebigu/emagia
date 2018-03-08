@@ -30,6 +30,22 @@ class Hero extends CharactersAbstract
     ##################
 
     /**
+     * @return array
+     */
+    public function getSkillsTypes(): array
+    {
+        return $this->skillsTypes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSkills(): array
+    {
+        return $this->skills;
+    }
+
+    /**
      * Add skill to Hero
      *
      * @param SkillsAbstract $skill

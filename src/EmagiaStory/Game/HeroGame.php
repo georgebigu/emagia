@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace EmagiaStory\Game;
 
+use EmagiaStory\Characters\CharactersAbstract;
 use EmagiaStory\Characters\Hero;
 use EmagiaStory\Characters\WildBeast;
 use EmagiaStory\Skills\MagicShield;
@@ -25,6 +26,8 @@ use EmagiaStory\Skills\SkillsAbstract;
  */
 class HeroGame
 {
+    const MAX_BATTLE_ROUNDS = 20;
+
     /** @var Hero */
     protected $hero;
 
@@ -34,12 +37,15 @@ class HeroGame
     /** @var $winner */
     protected $winner;
 
-    /** @var $firstAttacker */
-    protected $firstAttacker;
+    /** @var $attacker */
+    protected $attacker;
 
     /** @var array $startAbilities */
     protected $startAbilities = [];
 
+    ##################
+    # PUBLIC METHODS #
+    ##################
     /**
      * Start battle
      */
@@ -47,6 +53,20 @@ class HeroGame
     {
         try {
             $this->initGame();
+
+            while ($this->getPlayersAreAlive()) {
+                switch ($this->attacker) {
+                    case 'hero':
+                        $this->heroAttacks();
+                        $this->attacker = "wildBeast";
+                        break;
+                    case 'wildBeast':
+                        $this->wildBeastAttacks();
+                        $this->attacker = 'hero';
+                        break;
+                }
+            }
+
         } catch (\Exception $e) {
             $this->log($e->getMessage());
         }
@@ -67,6 +87,10 @@ class HeroGame
         $this->logPlayersSkills();
 
     }
+
+    ###################
+    # PRIVATE METHODS #
+    ###################
 
     /**
      * Create Hero player
@@ -122,13 +146,13 @@ class HeroGame
     private function firstAttacker()
     {
         if ($this->hero->getSpeed() > $this->wildBeast->getSpeed()) {
-            $this->firstAttacker = 'hero';
+            $this->attacker = 'hero';
         } elseif ($this->hero->getSpeed() < $this->wildBeast->getSpeed()) {
-            $this->firstAttacker = 'wildBeast';
+            $this->attacker = 'wildBeast';
         } elseif ($this->hero->getLuck() > $this->wildBeast->getLuck()) {
-            $this->firstAttacker = 'hero';
+            $this->attacker = 'hero';
         } elseif ($this->hero->getLuck() < $this->wildBeast->getLuck()) {
-            $this->firstAttacker = 'wildBeast';
+            $this->attacker = 'wildBeast';
         } else {
             $this->initGame();
         }
@@ -172,6 +196,20 @@ class HeroGame
     }
 
     /**
+     * Check if all characters are alive
+     *
+     * @return bool
+     */
+    private function getPlayersAreAlive()
+    {
+        if($this->hero->getHealth() > 0 && $this->wildBeast->getHealth() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Return a random number
      *
      * @param int $min
@@ -192,6 +230,80 @@ class HeroGame
     }
 
     /**
+     * Executes Hero attack
+     *
+     * @throws \Exception
+     */
+    private function heroAttacks()
+    {
+        $rapidStrike = $this->getHeroSkill(SkillsAbstract::RAPID_STRIKE_CLASS);
+        $damage = $this->getDamage($this->hero, $this->wildBeast);
+
+        if (!$rapidStrike->getUseSkill()) {
+            $damage = $rapidStrike->getSpecialDamage($damage);
+        }
+
+        $wildBeastHealth = $this->wildBeast->getHealth() - $damage;
+        $this->wildBeast->setHealth($wildBeastHealth);
+        $this->logPlayersSkills();
+    }
+
+    /**
+     * Executes WildBeast attack
+     *
+     * @throws \Exception
+     */
+    public function wildBeastAttacks()
+    {
+        $magicShield = $this->getHeroSkill(SkillsAbstract::MAGIC_SHIELD_CLASS);
+        $damage = $this->getDamage($this->wildBeast, $this->hero);
+
+        if (!$magicShield->getUseSkill()) {
+            $damage = $magicShield->getSpecialDamage($damage);
+        }
+
+        $heroHealth = $this->hero->getHealth() - $damage;
+        $this->hero->setHealth($heroHealth);
+        $this->logPlayersSkills();
+    }
+
+    /**
+     * Calculates damage
+     *
+     * @param CharactersAbstract $attacker
+     * @param CharactersAbstract $defender
+     * @return int
+     */
+    private function getDamage(CharactersAbstract $attacker, CharactersAbstract $defender): int
+    {
+        return $attacker->getStrength() - $defender->getDefence();
+    }
+
+    /**
+     * Return hero skill class
+     *
+     * @param string $skill
+     * @return bool
+     * @throws \Exception
+     */
+    private function getHeroSkill(string $skill): SkillsAbstract
+    {
+        $skillTypes = $this->hero->getSkillsTypes();
+
+        if (empty($skill)) {
+            throw new \Exception('Please provide a skill type');
+        }
+
+        if (!in_array($skill, $skillTypes)) {
+            throw new \Exception('Wrong skill type provided!');
+        }
+
+        $skills = $this->hero->getSkills();
+
+        return $skills[$skill];
+    }
+
+    /**
      * Prints a message
      *
      * @param string $message
@@ -208,13 +320,13 @@ class HeroGame
      */
     private function logPlayersSkills()
     {
-        $this->log('Hero Game start skills:' . PHP_EOL);
+        $this->log('Hero Game skills:' . PHP_EOL);
         $this->logUniqueAbilitiesValues($this->hero);
         $this->log('***********************' . PHP_EOL . PHP_EOL);
 
-        $this->log('WildBeast start skills:' . PHP_EOL);
+        $this->log('WildBeast skills:' . PHP_EOL);
         $this->logUniqueAbilitiesValues($this->wildBeast);
-        $this->log('***********************' . PHP_EOL);
+        $this->log('***********************' . PHP_EOL) . PHP_EOL;
     }
 
     /**
