@@ -63,13 +63,12 @@ abstract class SkillsAbstract
     }
 
     /**
-     * @param mixed $useSkill
      * @return SkillsAbstract
      */
     public function useSkill(): SkillsAbstract
     {
         $rand = mt_rand(0, 100);
-        $useSkill = $rand < $this->chance;
+        $useSkill = $rand <= $this->chance;
         $this->useSkill = $useSkill;
 
         return $this;

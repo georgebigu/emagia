@@ -62,23 +62,6 @@ class Hero extends CharactersAbstract
         return $this;
     }
 
-    /**
-     * Remove skill from Hero
-     *
-     * @param SkillsAbstract $skill
-     * @return Hero
-     */
-    public function removeSkill(SkillsAbstract $skill): Hero
-    {
-        foreach ($this->skillsTypes as $skillType) {
-            if ($this->skillIsSet($skill, $skillType)) {
-                unset($this->skills[$skillType]);
-            }
-        }
-
-        return $this;
-    }
-
     /*******************/
     /* PRIVATE METHODS */
     /*******************/
