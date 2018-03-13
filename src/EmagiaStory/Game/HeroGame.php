@@ -27,6 +27,8 @@ use EmagiaStory\Skills\SkillsAbstract;
 class HeroGame
 {
     const MAX_BATTLE_ROUNDS = 20;
+    const ATTACKER_HERO = 'hero';
+    const ATTACKER_WILD_BEATS = 'wildBeast';
 
     /** @var Hero */
     protected $hero;
@@ -61,13 +63,13 @@ class HeroGame
                 $this->log(PHP_EOL);
 
                 switch ($this->attacker) {
-                    case 'hero':
+                    case self::ATTACKER_HERO:
                         $this->heroAttacks();
-                        $this->attacker = "wildBeast";
+                        $this->attacker = self::ATTACKER_WILD_BEATS;
                         break;
-                    case 'wildBeast':
+                    case self::ATTACKER_WILD_BEATS:
                         $this->wildBeastAttacks();
-                        $this->attacker = 'hero';
+                        $this->attacker = self::ATTACKER_HERO;
                         break;
                 }
 
@@ -169,13 +171,13 @@ class HeroGame
     private function firstAttacker()
     {
         if ($this->hero->getSpeed() > $this->wildBeast->getSpeed()) {
-            $this->attacker = 'hero';
+            $this->attacker = self::ATTACKER_HERO;
         } elseif ($this->hero->getSpeed() < $this->wildBeast->getSpeed()) {
-            $this->attacker = 'wildBeast';
+            $this->attacker = self::ATTACKER_WILD_BEATS;
         } elseif ($this->hero->getLuck() > $this->wildBeast->getLuck()) {
-            $this->attacker = 'hero';
+            $this->attacker = self::ATTACKER_HERO;
         } elseif ($this->hero->getLuck() < $this->wildBeast->getLuck()) {
-            $this->attacker = 'wildBeast';
+            $this->attacker = self::ATTACKER_WILD_BEATS;
         } else {
             $this->initGame();
         }
@@ -189,7 +191,7 @@ class HeroGame
      */
     private function getFirstAttackerName($type): string
     {
-        if ($type == 'hero') {
+        if ($type == self::ATTACKER_HERO) {
             return $this->hero->getPlayerName();
         } else {
             return $this->wildBeast->getPlayerName();

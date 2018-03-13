@@ -68,7 +68,7 @@ abstract class SkillsAbstract
     public function useSkill(): SkillsAbstract
     {
         $rand = mt_rand(0, 100);
-        $useSkill = $rand <= $this->chance;
+        $useSkill = $rand <= $this->getChance();
         $this->useSkill = $useSkill;
 
         return $this;
