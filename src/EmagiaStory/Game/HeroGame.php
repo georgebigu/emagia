@@ -57,7 +57,7 @@ class HeroGame
             $this->initGame();
             $roundsPlayed = 1;
 
-            while ($this->getPlayersAreAlive() && $roundsPlayed <= 20) {
+            while ($this->getPlayersAreAlive() && $roundsPlayed <= self::MAX_BATTLE_ROUNDS) {
 
                 $this->log('Abilities after attack nr. : ' . $roundsPlayed . PHP_EOL);
                 $this->log(PHP_EOL);
@@ -445,6 +445,5 @@ class HeroGame
         }
         $this->log(PHP_EOL);
         $this->log(PHP_EOL);
-
     }
 }
