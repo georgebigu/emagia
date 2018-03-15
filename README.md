@@ -16,7 +16,3 @@ The hero has a set of special skills that have a certain probability to be used 
 * PHPUnit 6.x
 
 The PHP application can be run by accessing 'index.php' file in browser or in console.
-
-## Set up the project
-    curl -sS https://getcomposer.org/installer | php
-    php composer.phar install
